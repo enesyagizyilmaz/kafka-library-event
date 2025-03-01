@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.microservices</groupId>
-    <artifactId>spring-kafka</artifactId>
+    <artifactId>library-events-consumer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-kafka</name>
-    <description>spring-kafka</description>
+    <name>library-events-consumer</name>
+    <description>library-events-consumer</description>
     <url/>
     <licenses>
         <license/>
