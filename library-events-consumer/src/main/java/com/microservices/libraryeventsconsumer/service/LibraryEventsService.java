@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microservices.libraryeventsconsumer.entity.LibraryEvent;
 import com.microservices.libraryeventsconsumer.repository.LibraryEventsRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,9 +42,8 @@ public class LibraryEventsService {
                 save(libraryEvent);
                 break;
             case UPDATE:
-                //validate the libraryevent
-//                validate(libraryEvent);
-//                save(libraryEvent);
+                validate(libraryEvent);
+                save(libraryEvent);
                 break;
             default:
                 log.info("Invalid Library Event Type");
