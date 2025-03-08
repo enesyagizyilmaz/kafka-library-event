@@ -3,10 +3,11 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile name="Annotation profile for library-events-consumer" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <sourceOutputDir name="../library-event-producer/target/generated-sources/annotations" />
+        <sourceTestOutputDir name="../library-event-producer/target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="library-events-consumer" />
@@ -21,6 +22,26 @@
         </processorPath>
         <module name="producer" />
       </profile>
+      <profile name="Annotation profile for library-events-consumer (1)" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="library-events-consumer (1)" />
+      </profile>
+      <profile name="Annotation profile for library-events-consumer (2)" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="library-events-consumer (2)" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="library-event-producer" target="17" />
@@ -29,6 +50,8 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="library-events-consumer" options="-parameters" />
+      <module name="library-events-consumer (1)" options="-parameters" />
+      <module name="library-events-consumer (2)" options="-parameters" />
       <module name="producer" options="-parameters" />
     </option>
   </component>

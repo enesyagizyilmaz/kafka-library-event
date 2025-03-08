@@ -1,0 +1,8 @@
+/Users/enesyagizyilmaz/Desktop/IdeaProjects/kafka-library-event/library-event-producer/src/main/java/com/microservices/springkafka/LibraryEventProducerApplication.java
+/Users/enesyagizyilmaz/Desktop/IdeaProjects/kafka-library-event/library-event-producer/src/main/java/com/microservices/springkafka/config/AutoCreateConfig.java
+/Users/enesyagizyilmaz/Desktop/IdeaProjects/kafka-library-event/library-event-producer/src/main/java/com/microservices/springkafka/controller/LibraryEventControllerAdvice.java
+/Users/enesyagizyilmaz/Desktop/IdeaProjects/kafka-library-event/library-event-producer/src/main/java/com/microservices/springkafka/controller/LibraryEventsController.java
+/Users/enesyagizyilmaz/Desktop/IdeaProjects/kafka-library-event/library-event-producer/src/main/java/com/microservices/springkafka/domain/Book.java
+/Users/enesyagizyilmaz/Desktop/IdeaProjects/kafka-library-event/library-event-producer/src/main/java/com/microservices/springkafka/domain/LibraryEvent.java
+/Users/enesyagizyilmaz/Desktop/IdeaProjects/kafka-library-event/library-event-producer/src/main/java/com/microservices/springkafka/domain/LibraryEventType.java
+/Users/enesyagizyilmaz/Desktop/IdeaProjects/kafka-library-event/library-event-producer/src/main/java/com/microservices/springkafka/producer/LibraryEventsProducer.java

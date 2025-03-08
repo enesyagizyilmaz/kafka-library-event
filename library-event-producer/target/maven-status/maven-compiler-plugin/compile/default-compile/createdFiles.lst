@@ -1,0 +1,8 @@
+com/microservices/springkafka/producer/LibraryEventsProducer.class
+com/microservices/springkafka/domain/Book.class
+com/microservices/springkafka/controller/LibraryEventControllerAdvice.class
+com/microservices/springkafka/config/AutoCreateConfig.class
+com/microservices/springkafka/LibraryEventProducerApplication.class
+com/microservices/springkafka/controller/LibraryEventsController.class
+com/microservices/springkafka/domain/LibraryEvent.class
+com/microservices/springkafka/domain/LibraryEventType.class
