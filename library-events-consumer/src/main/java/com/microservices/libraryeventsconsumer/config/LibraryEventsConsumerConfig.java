@@ -29,6 +29,8 @@ public class LibraryEventsConsumerConfig {
 
     public static final String DEAD = "DEAD";
 
+    public static final String SUCCESS = "SUCCESS";
+
     @Autowired
     KafkaTemplate kafkaTemplate;
 

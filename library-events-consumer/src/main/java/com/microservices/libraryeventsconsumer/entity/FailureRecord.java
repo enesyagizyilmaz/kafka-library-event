@@ -7,8 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Entity
 public class FailureRecord {
@@ -22,6 +20,10 @@ public class FailureRecord {
     private Long offset_value;
     private String exception;
     private String status;
+
+    public FailureRecord() {
+
+    }
 
     public FailureRecord(Integer bookId, String topic, Integer key_value, String errorRecord,
                          Integer partition, Long offset_value, String exception, String status) {
