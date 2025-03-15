@@ -13,11 +13,11 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class LibraryEventsService {
-
     @Autowired
     ObjectMapper objectMapper;
 
@@ -33,11 +33,11 @@ public class LibraryEventsService {
         LibraryEvent libraryEvent = objectMapper.readValue(consumerRecord.value(), LibraryEvent.class);
         log.info("libraryEvent : {} ", libraryEvent);
 
-        if(libraryEvent.getLibraryEventId()!=null && ( libraryEvent.getLibraryEventId()==999 )){
+        if(libraryEvent != null && (libraryEvent.getLibraryEventId() != null && libraryEvent.getLibraryEventId()==999)){
             throw new RecoverableDataAccessException("Temporary Network Issue");
         }
 
-        switch(libraryEvent.getLibraryEventType()){
+        switch(Objects.requireNonNull(libraryEvent).getLibraryEventType()){
             case NEW:
                 save(libraryEvent);
                 break;

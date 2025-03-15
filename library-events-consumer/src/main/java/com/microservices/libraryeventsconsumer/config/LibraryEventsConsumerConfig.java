@@ -1,5 +1,7 @@
 package com.microservices.libraryeventsconsumer.config;
 
+import com.microservices.libraryeventsconsumer.service.FailureService;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.TopicPartition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.springframework.dao.RecoverableDataAccessException;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.listener.ConsumerRecordRecoverer;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.ExponentialBackOffWithMaxRetries;
@@ -22,8 +25,15 @@ import java.util.List;
 
 @Configuration
 public class LibraryEventsConsumerConfig {
+    public static final String RETRY = "RETRY";
+
+    public static final String DEAD = "DEAD";
+
     @Autowired
     KafkaTemplate kafkaTemplate;
+
+    @Autowired
+    FailureService failureService;
 
     @Value("${topics.retry}")
     private String retryTopic;
@@ -53,6 +63,18 @@ public class LibraryEventsConsumerConfig {
         return recoverer;
     }
 
+    ConsumerRecordRecoverer consumerRecordRecoverer = (consumerRecord, e) -> {
+        log.error("Exception in consumerRecordRecoverer : {}", e.getMessage(), e);
+        var record = (ConsumerRecord<Integer, String>) consumerRecord;
+        if (e.getCause() instanceof RecoverableDataAccessException) {
+            log.info("Inside the recoverable logic");
+            failureService.saveFailedRecord(record, e, RETRY);
+        } else {
+            log.info("Inside the non recoverable logic and skipping the record : {}", consumerRecord);
+            failureService.saveFailedRecord(record, e, DEAD);
+        }
+    };
+
     public DefaultErrorHandler errorHandler() {
         var exceptionToIgnorelist = List.of(IllegalArgumentException.class);
         var fixedBackOff = new FixedBackOff(1000L, 2L);
@@ -63,9 +85,10 @@ public class LibraryEventsConsumerConfig {
         expBackOff.setMaxInterval(2_000L);
 
         var defaultErrorHandler = new DefaultErrorHandler(
-                publishingRecoverer(),
-                fixedBackOff
-                // expBackOff
+                //publishingRecoverer(),
+                //fixedBackOff
+                consumerRecordRecoverer,
+                expBackOff
         );
         exceptionToIgnorelist.forEach(defaultErrorHandler::addNotRetryableExceptions);
         defaultErrorHandler.setRetryListeners(
