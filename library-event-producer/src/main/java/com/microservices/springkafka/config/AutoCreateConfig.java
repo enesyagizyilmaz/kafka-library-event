@@ -11,6 +11,10 @@ public class AutoCreateConfig {
     @Value("${spring.kafka.topic}")
     public String topic;
 
+    /**
+     * Creates a Kafka topic with the specified name, number of partitions, and replicas.
+     * @return NewTopic
+     */
     @Bean
     public NewTopic libraryEvents() {
         return TopicBuilder

@@ -14,12 +14,16 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class LibraryEventControllerAdvice {
-
     private static final Logger log = LoggerFactory.getLogger(LibraryEventsController.class);
 
+    /**
+     * Handles validation errors for request bodies.
+     *
+     * @param ex The exception thrown when a request body validation fails.
+     * @return A ResponseEntity containing a formatted error message and a BAD_REQUEST status.
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleRequestBody(MethodArgumentNotValidException ex) {
-
         List<FieldError> errorList = ex.getBindingResult().getFieldErrors();
         String errorMessage = errorList.stream()
                 .map(fieldError -> fieldError.getField() + " - " + fieldError.getDefaultMessage())

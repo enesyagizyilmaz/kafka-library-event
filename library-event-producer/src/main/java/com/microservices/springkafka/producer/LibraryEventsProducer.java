@@ -37,6 +37,13 @@ public class LibraryEventsProducer {
         this.objectMapper = objectMapper;
     }
 
+    /**
+     * Sends a LibraryEvent asynchronously to the Kafka topic.
+     *
+     * @param libraryEvent The event to be sent.
+     * @return CompletableFuture representing the result of the send operation.
+     * @throws JsonProcessingException if there is an error during serialization.
+     */
     public CompletableFuture<SendResult<Integer, String>> sendLibraryEvent(LibraryEvent libraryEvent) throws JsonProcessingException {
         var key = libraryEvent.libraryEventId();
         var value = objectMapper.writeValueAsString(libraryEvent);
@@ -54,7 +61,19 @@ public class LibraryEventsProducer {
                 });
     }
 
-    public SendResult<Integer, String> sendLibraryEvent_approach2(LibraryEvent libraryEvent) throws JsonProcessingException, ExecutionException, InterruptedException, TimeoutException {
+    /**
+     * Sends a LibraryEvent synchronously to the Kafka topic.
+     * This method blocks until the message is sent or a timeout occurs.
+     *
+     * @param libraryEvent The event to be sent.
+     * @return SendResult containing metadata about the sent message.
+     * @throws JsonProcessingException if there is an error during serialization.
+     * @throws ExecutionException if an error occurs while executing the send operation.
+     * @throws InterruptedException if the thread is interrupted while waiting.
+     * @throws TimeoutException if the operation times out.
+     */
+    public SendResult<Integer, String> sendLibraryEvent_approach2(LibraryEvent libraryEvent) throws JsonProcessingException,
+            ExecutionException, InterruptedException, TimeoutException {
         var key = libraryEvent.libraryEventId();
         var value = objectMapper.writeValueAsString(libraryEvent);
 
@@ -67,6 +86,13 @@ public class LibraryEventsProducer {
         return sendResult;
     }
 
+    /**
+     * Sends a LibraryEvent asynchronously using a ProducerRecord with additional headers.
+     *
+     * @param libraryEvent The event to be sent.
+     * @return CompletableFuture representing the result of the send operation.
+     * @throws JsonProcessingException if there is an error during serialization.
+     */
     public CompletableFuture<SendResult<Integer, String>> sendLibraryEvent_approach3(LibraryEvent libraryEvent) throws JsonProcessingException, ExecutionException, InterruptedException, TimeoutException {
         var key = libraryEvent.libraryEventId();
         var value = objectMapper.writeValueAsString(libraryEvent);
@@ -87,15 +113,36 @@ public class LibraryEventsProducer {
                 });
     }
 
+    /**
+     * Handles a successful Kafka message send operation.
+     *
+     * @param key The key of the sent message.
+     * @param value The value of the sent message.
+     * @param sendResult The result containing metadata about the sent message.
+     */
     private void handleSuccess(Integer key, String value, SendResult<Integer, String> sendResult) {
         log.info("Message sent successfully for the key {} and the value {}, partition is {}",
                 key, value, sendResult.getRecordMetadata().partition());
     }
 
+    /**
+     * Handles a failed Kafka message send operation.
+     *
+     * @param key The key of the message that failed to send.
+     * @param value The value of the message that failed to send.
+     * @param throwable The exception that occurred.
+     */
     private void handleFailure(Integer key, String value, Throwable throwable) {
         log.error("Error sending the message and the exception is {}", throwable.getMessage(), throwable);
     }
 
+    /**
+     * Builds a ProducerRecord with custom headers for sending to Kafka.
+     *
+     * @param key The key of the message.
+     * @param value The value of the message.
+     * @return ProducerRecord with the specified key, value, and headers.
+     */
     private ProducerRecord<Integer, String> buildProducerRecord(Integer key, String value) {
         List<Header> recordHeaders = List.of(new RecordHeader("event-source", "scanner".getBytes()));
         return new ProducerRecord<>(topic, null, key, value, recordHeaders);
